@@ -1562,9 +1562,9 @@ index 00000000..56b10e89
 +            sender.sendMessage("Disabled Verbose Timings");
 +            return true;
 +        } else if ("reset".equalsIgnoreCase(arg)) {
-+            if (now - lastResetAttempt < 30000) {
++            if (lastResetAttempt == now) {
 +                TimingsManager.reset();
-+                sender.sendMessage(ChatColor.RED + "Timings reset. Please wait 5-10 minutes before using /timings report.");
++                sender.sendMessage(ChatColor.GREEN + "Timings reset.");
 +            } else {
 +                lastResetAttempt = now;
 +                sender.sendMessage(ChatColor.RED + "WARNING: Timings v2 should not be reset. If you are encountering lag, please wait 3 minutes and then issue a report. The best timings will include 10+ minutes, with data before and after your lag period. If you really want to reset, run this command again within 30 seconds.");
@@ -1701,8 +1701,8 @@ index 00000000..df7f4259
 +            return;
 +        }
 +        final long lastStartDiff = now - TimingsManager.timingStart;
-+        if (lastStartDiff < 180000) {
-+            listeners.sendMessage(ChatColor.RED + "Please wait at least 3 minutes before generating a Timings report. Unlike Timings v1, v2 benefits from longer timings and is not as useful with short timings. (" + (int)((180000 - lastStartDiff) / 1000) + " seconds)");
++        if (lastStartDiff < 0) {
++            listeners.sendMessage(ChatColor.RED + "Please wait at least 3 minutes before generating a Timings report. Unlike Timings v1, v2 benefits from longer timings and is not as useful with short timings. (" + (int)((0 - lastStartDiff) / 1000) + " seconds)");
 +            listeners.done();
 +            return;
 +        }
